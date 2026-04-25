@@ -51,7 +51,7 @@ const DEFAULT_PORTFOLIO: Portfolio = {
 };
 
 /** SPARKLINE SVG */
-function Sparkline({ prices, color }: { prices: number[]; color: string }) {
+function Sparkline({ prices }: { prices: number[] }) {
   if (!prices || prices.length < 2) return <span style={{ color: '#2a4a2a', fontSize: 10 }}>NO DATA</span>;
   const w = 80, h = 28;
   const min = Math.min(...prices);
@@ -370,7 +370,7 @@ export default function App() {
               </div>
               <div style={{ flex: 1.5, display: 'flex', alignItems: 'center' }}>
                 {analysis?.sparklines?.[a.symbol]
-                  ? <Sparkline prices={analysis.sparklines[a.symbol]} color={riskColor} />
+                  ? <Sparkline prices={analysis.sparklines[a.symbol]}  />
                   : <span style={{ color: '#1a3a1a', fontSize: 10, letterSpacing: 1 }}>RUN ANALYSIS</span>
                 }
               </div>
