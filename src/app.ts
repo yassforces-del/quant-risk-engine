@@ -103,7 +103,7 @@ const COINGECKO_IDS: Record<string, string> = {
 async function getMarketData(symbol: string) {
   logger.info('getMarketData called', { symbol });
   try {
-    const id = symbol.toLowerCase();
+    const id = COINGECKO_IDS[symbol] ?? symbol.toLowerCase();
     
     // Prix historiques 7 jours
     const histRes = await fetch(
