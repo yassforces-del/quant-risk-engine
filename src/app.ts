@@ -87,6 +87,19 @@ function weightedAvg(
   return totalWeight === 0 ? '0.00' : (total / totalWeight).toFixed(precision);
 }
 
+const COINGECKO_IDS: Record<string, string> = {
+  BTC: 'bitcoin',
+  ETH: 'ethereum',
+  SOL: 'solana',
+  BNB: 'binancecoin',
+  ADA: 'cardano',
+  XRP: 'ripple',
+  DOGE: 'dogecoin',
+  AVAX: 'avalanche-2',
+  MATIC: 'matic-network',
+  DOT: 'polkadot',
+};
+
 async function getMarketData(symbol: string) {
   logger.info('getMarketData called', { symbol });
   try {
