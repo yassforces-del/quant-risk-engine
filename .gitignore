@@ -3,3 +3,9 @@ dist/
 .env
 error.log
 combined.log
+coverage/
+src/*.js
+src/utils/*.js
+tests/*.js
+frontend/src/*.js
+frontend/vite.config.js
