@@ -90,24 +90,28 @@ function weightedAvg(
 async function getMarketData(symbol: string) {
   logger.info('getMarketData called', { symbol });
   try {
-    const pair = symbol.endsWith('USDT') ? symbol : `${symbol}USDT`;
+    const id = symbol.toLowerCase();
+    
+    // Prix historiques 7 jours
     const histRes = await fetch(
-      `https://api.binance.com/api/v3/klines?symbol=${pair}&interval=1d&limit=7`
+      `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7&interval=daily`
     );
-    const histData = (await histRes.json()) as any[];
-    const prices = histData.map((d) => Number(d[4]));
+    const histData = (await histRes.json()) as any;
+    const prices = histData.prices.map((p: number[]) => p[1]);
+
+    // Ticker actuel
     const tickerRes = await fetch(
-      `https://api.binance.com/api/v3/ticker/24hr?symbol=${pair}`
+      `https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd&include_24hr_vol=true&include_24hr_change=true`
     );
     const ticker = (await tickerRes.json()) as any;
-    const ask = parseFloat(ticker.askPrice ?? '0');
-    const bid = parseFloat(ticker.bidPrice ?? '0');
+
     const sigma = (calculateVolatility(prices) * 100).toFixed(2);
     const sharpe = calculateSharpe(prices);
-    const spread = ask ? (((ask - bid) / ask) * 100).toFixed(4) : '0.00';
-    const volume = Number(ticker.quoteVolume || 0).toLocaleString();
-    logger.info('Market data fetched', { symbol, sigma, spread, volume, sharpe });
-    return { sigma, spread, volume, sharpe, prices }; // ← prices ajouté
+    const volume = ticker[id]?.usd_24h_vol?.toLocaleString() ?? 'N/A';
+
+    logger.info('Market data fetched', { symbol, sigma, volume, sharpe });
+    return { sigma, spread: '0.00', volume, sharpe, prices };
+
   } catch (err: any) {
     logger.warn('getMarketData failed, returning N/A', { symbol, error: err.message });
     return { sigma: 'N/A', spread: 'N/A', volume: 'N/A', sharpe: 0, prices: [] };
