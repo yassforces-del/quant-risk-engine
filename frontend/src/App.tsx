@@ -186,7 +186,7 @@ export default function App() {
     setLoading(true);
     setAnalysis(null);
     try {
-      const res = await fetch('http://localhost:3000/analyze', {
+      const res = await fetch('https://quant-risk-engine.vercel.app/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ assets }),
