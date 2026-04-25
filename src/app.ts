@@ -153,6 +153,10 @@ const AssetSchema = z.object({
   purchasePrice: z.number().positive(),
 });
 
+app.get('/health', (c) => {
+  return c.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 app.post('/analyze', async (c) => {
   logger.info('POST /analyze received');
   try {
