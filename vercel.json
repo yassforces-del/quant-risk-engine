@@ -1,0 +1,6 @@
+{
+  "buildCommand": "npx tsc -p tsconfig.json",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
+  "framework": null
+}
