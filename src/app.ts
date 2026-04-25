@@ -137,10 +137,10 @@ function computeScore(sigma: string, spread: string): number {
 }
 
 function interpretScore(score: number): string {
-  if (score > 75) return 'Portfolio sain';
-  if (score > 50) return 'Risque modéré';
-  if (score > 30) return 'Risque élevé';
-  return 'Risque critique';
+  if (score > 75) return 'Healthy portfolio';
+  if (score > 50) return 'Moderate risk';
+  if (score > 30) return 'High risk';
+  return 'Critical risk';
 }
 
 function buildFallback(avgSigma: string, avgSpread: string, avgSharpe: string): AnalysisResult {
@@ -148,15 +148,15 @@ function buildFallback(avgSigma: string, avgSpread: string, avgSharpe: string): 
   return {
     riskLevel: score > 75 ? 'low' : score > 50 ? 'moderate' : score > 30 ? 'high' : 'critical',
     riskType: 'volatility',
-    description: `Mode dégradé — analyse technique: Sigma ${avgSigma}%, Spread ${avgSpread}%, Sharpe ${avgSharpe}.\n\n📊 Risk Insight: ${interpretScore(score)}`,
-    suggestedAction: 'Surveiller la volatilité.',
+    description: `Degraded mode — technical analysis: Sigma ${avgSigma}%, Spread ${avgSpread}%, Sharpe ${avgSharpe}.\n\n📊 Risk Insight: ${interpretScore(score)}`,
+    suggestedAction: 'Monitor volatility.',
     exposurePercent: 100,
     score,
     sparklines: {},
     stats: {
       sigma: `${avgSigma}%`,
       spread: `${avgSpread}%`,
-      liquidity: Number(avgSpread) > 0.1 ? 'Faible' : 'Excellente',
+      liquidity: Number(avgSpread) > 0.1 ? 'low' : 'excellent',
       sharpe: avgSharpe,
     },
   };
@@ -248,7 +248,7 @@ Sigma:${avgSigma}% Spread:${avgSpread}% Sharpe:${avgSharpe} Details:${market.sig
       result.stats = {
         sigma: `${avgSigma}%`,
         spread: `${avgSpread}%`,
-        liquidity: Number(avgSpread) > 0.1 ? 'Faible' : 'Excellente',
+        liquidity: Number(avgSpread) > 0.1 ? 'low' : 'excellent',
         sharpe: avgSharpe,
       };
 
